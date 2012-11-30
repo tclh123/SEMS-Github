@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>公告管理模块</h2>
+
+<fieldset>
+    <legend>在此处可以点选添加或查看公告</legend>
+    <ul>
+        <li>@Html.ActionLink("添加公告", "SetNews")</li>
+        <li>@Html.ActionLink("查看公告", "NewsDetails")</li>
+    </ul>
+</fieldset>

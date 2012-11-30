@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "SelectPolicy";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>选择要查询的模块政策</h2>
+
+@using (Html.BeginForm())
+{
+    <p>@Html.DropDownList("selectedmodule")</p>
+    <input type="submit" value="查询"/>
+}

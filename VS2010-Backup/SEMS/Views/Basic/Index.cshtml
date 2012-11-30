@@ -1,0 +1,24 @@
+﻿@model SEMS.ViewModels.BaseSearch
+
+@{
+    ViewBag.Title = "BasicSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@Html.ValidationSummary(true,"无此学号!")
+
+<h2>基础查询</h2>
+<p>请输入学号并选择测评年来查看综合测评成绩</p>
+@using (Html.BeginForm())
+{
+    <div class="editor-label">@Html.LabelFor(m=>m.student_id)</div>
+    <div class="editor-field">@Html.EditorFor(m=>m.student_id) @Html.ValidationMessageFor(m=>m.student_id)</div>
+    
+    <div class="editor-label">@Html.LabelFor(m=>m.year_id)</div>
+    <div class="editor-field">@Html.DropDownListFor(m => m.year_id, (List<SelectListItem>)ViewBag.List)</div>
+    
+    <input type="submit" value="查询" />
+}
+

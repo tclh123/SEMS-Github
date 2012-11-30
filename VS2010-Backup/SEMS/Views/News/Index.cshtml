@@ -1,0 +1,20 @@
+﻿@model IEnumerable<SEMS.Models.News>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>公告</h2>
+<fieldset>
+    <legend>公告栏</legend>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@Html.ActionLink(item.news_title, "ShowNews", new
+           {
+               news_id=item.news_id
+           })</li>
+        }
+    </ul>
+</fieldset>

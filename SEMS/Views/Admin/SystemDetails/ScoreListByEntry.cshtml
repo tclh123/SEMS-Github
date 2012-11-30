@@ -1,0 +1,134 @@
+﻿@model PagedList.IPagedList<SEMS.Models.Entry_score>
+@{
+    ViewBag.Title = "按测评项目查询成绩清单";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+<script>
+$(function(){
+        $("#SelectedSchool_year").change(function(){ 
+            var selec = $(this).val();  //获取改变的选项值
+            var url = "@Url.Action("ScoreListByEntry_JSON")";  //参数依次类型(action,Controller,area）
+
+            $("#SelectedEntry").find("option").remove();  //清空
+
+            $.getJSON(url, { 'School_year': selec, 'Semester' : $("#SelectedSemester").val() }, function (data) {   //回调
+
+                $.each(data, function (i, item) {   //对每个Entry
+                    $("<option></option>").val(item["Value"]).text(item["Text"]).appendTo($("#SelectedEntry"));
+                });  
+            });     
+        });
+
+        $("#SelectedSemester").change(function(){ 
+            var selec = $(this).val();  //获取改变的选项值
+            var url = "@Url.Action("ScoreListByEntry_JSON")";  //参数依次类型(action,Controller,area）
+
+            $("#SelectedEntry").find("option").remove();  //清空
+
+            $.getJSON(url, { 'School_year': $("#SelectedSchool_year").val(), 'Semester' : selec }, function (data) {   //回调
+
+                $.each(data, function (i, item) {   //对每个Entry
+                    $("<option></option>").val(item["Value"]).text(item["Text"]).appendTo($("#SelectedEntry"));
+                });  
+            });     
+        });
+    });
+</script>
+<fieldset>
+    <legend>按测评项目查询成绩清单</legend>
+    <p>
+    </p>
+    <p>
+    </p>
+    @using (Html.BeginForm())
+    {                
+        <div class="editor-label">
+            <label>
+                学年</label></div>
+        <div class="editor-field">@Html.DropDownList("SelectedSchool_year", "默认")</div>
+                
+        <div class="editor-label">
+            <label>
+                学期</label></div>
+        <div class="editor-field">@Html.DropDownList("SelectedSemester", "默认")</div>
+     
+        <div class="editor-label">
+            <label>
+                选择项目</label></div>
+        <div class="editor-field">@Html.DropDownList("SelectedEntry", "无")</div>
+        
+        <input type="submit" value="Filter" />
+    }
+    <fieldset>
+        <legend>学生成绩</legend>
+        @{
+            if (Model != null && ViewBag.EntryId != null)
+            {
+                var selectedEntry = SEMS.BLL.Evaluation_entryBS.FindEvaluation_entry(ViewBag.EntryId);
+            <table>
+                <tr>
+                    <th>
+                        项目: @selectedEntry.entry_description
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                        所属模块:@selectedEntry.module_id
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        姓名
+                    </th>
+                    <th>
+                        学号
+                    </th>
+                    <th>
+                        分数
+                    </th>
+                </tr>
+                @foreach (var item in Model) {
+                <tr>
+                    <td>@SEMS.BLL.StudentBS.FindStudent(item.student_id).student_name
+                    </td>
+                    <td>@item.student_id
+                    </td>
+                    <td>@item.score
+                    </td>
+                </tr>
+                }
+            </table>
+            <div>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                of @Model.PageCount
+     
+                @if (Model.HasPreviousPage)
+                {
+                    @Html.ActionLink("<<", "ScoreListByEntry", new { page = 1, selectedEntry = ViewBag.EntryId })
+                    @Html.Raw(" ");
+                    @Html.ActionLink("< Prev", "ScoreListByEntry", new { page = Model.PageNumber - 1, selectedEntry = ViewBag.EntryId })
+                }
+                else
+                {
+                    @:<<
+                    @Html.Raw(" ");
+                    @:< Prev
+                }
+     
+                @if (Model.HasNextPage)
+                {
+                    @Html.ActionLink("Next >", "ScoreListByEntry", new { page = Model.PageNumber + 1, selectedEntry = ViewBag.EntryId })
+                    @Html.Raw(" ");
+                    @Html.ActionLink(">>", "ScoreListByEntry", new { page = Model.PageCount, selectedEntry = ViewBag.EntryId })
+                }
+                else
+                {
+                    @:Next >
+                    @Html.Raw(" ")
+                    @:>>
+                }
+            </div>
+            }
+        }
+    </fieldset>
+</fieldset>

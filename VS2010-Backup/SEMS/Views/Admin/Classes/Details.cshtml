@@ -1,0 +1,16 @@
+﻿@model SEMS.Models.Classes
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>班级详情</legend>
+    <p>@Model.class_id 班 @Model.class_small_id 小班 现有 @ViewBag.Class 人</p>
+    <p>已录入测评成绩 @ViewBag.Entry_score 项</p>
+    <p>@Html.ActionLink("按班级查询", "ScoreListByClasses", "SystemDetails", new{SelectedClassID = Model.class_id}, new{ }) </p>
+    <p>@Html.ActionLink("返回", "Index")</p>
+</fieldset>

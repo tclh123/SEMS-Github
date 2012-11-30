@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SEMS.Models.Module>
+
+@{
+    ViewBag.Title = "模块管理";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>模块管理</h2>
+
+<table>
+    <tr>
+        <th>模块ID</th>
+        <th>模块名</th>
+        <th>本学期项目数</th>
+        <th>总项目数</th>
+        <th>操作</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.module_id</td>
+            <td>@item.module_name</td>
+            <td>@SEMS.BLL.Evaluation_entryBS.GetCurEvaluation_entryCount(item.module_id)</td>
+            <td>@SEMS.BLL.Evaluation_entryBS.GetAllEvaluation_entryCount(item.module_id)</td>
+            <td>@Html.ActionLink("查看测评项目", "Index", "Entry", new { SelectedModuel = item.module_id }, new { })</td>
+        </tr>
+    }
+</table>

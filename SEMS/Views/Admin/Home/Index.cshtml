@@ -1,0 +1,22 @@
+﻿@model SEMS.Models.Sysinfo
+
+@{
+    ViewBag.Title = "首页";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend>首页</legend>
+    <p>
+    </p>
+    <p>
+    </p>
+
+    <fieldset>
+        <legend>当前系统信息</legend>
+        <p>系统共存有班级信息 @ViewBag.Class 个</p>
+        <p>系统共存有学生信息 @ViewBag.Student 个</p>
+        <p>系统共存有测评项目信息 @ViewBag.Entry 个</p>
+        <p>系统共存有当前学期测评项目信息 @ViewBag.EntryCur 个</p>
+        <p>当前是 @Model.sysinfo_school_year 学年 @Model.sysinfo_semester 学期</p>
+    </fieldset>
+</fieldset>

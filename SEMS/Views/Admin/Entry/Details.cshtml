@@ -1,0 +1,51 @@
+﻿@model SEMS.Models.Evaluation_entry
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>查看项目信息</h2>
+
+<fieldset>
+    <legend>项目信息</legend>
+    <table>
+        <tr>
+            <th>@Html.LabelFor(m=>m.entry_description)</th>
+            <td>@Html.DisplayFor(m=>m.entry_description)</td>
+        </tr>
+        <tr>
+            <th>已录入人数</th>
+            <td>@SEMS.BLL.Evaluation_entryBS.GetEntry_scoreList(Model.entry_id).Count</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m=>m.module_id)</th>
+            <td>@Html.DisplayFor(m=>m.module_id)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m=>m.entry_school_year)</th>
+            <td>@Html.DisplayFor(m=>m.entry_school_year)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m=>m.entry_semester)</th>
+            <td>@Html.DisplayFor(m=>m.entry_semester)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(m=>m.entry_date)</th>
+            <td>@Html.DisplayFor(m=>m.entry_date)</td>
+        </tr>
+        <tr>
+            @{SEMS.Models.Evaluation_entry temp = new SEMS.Models.Evaluation_entry()
+              {
+                  entry_id=Model.entry_id,
+                  entry_description=Model.entry_description,
+                  entry_date=Model.entry_date,
+                  entry_school_year=Model.entry_school_year,
+                  entry_semester=Model.entry_semester,
+                  module_id=Model.module_id
+              };}
+            <th>@Html.ActionLink("该测评项目成绩清单", "ScoreListByEntry", "SystemDetails",
+                 new { selectedEntry = Model.entry_id, selectedSchool_year = Model.entry_school_year, selectedSemester = Model.entry_semester }, null)</th>
+        </tr>
+    </table>
+</fieldset>

@@ -1,0 +1,123 @@
+﻿@model SEMS.Models.Student
+
+@{
+    ViewBag.Title = "ScoreListByStudent";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>按学生查询</h2>
+
+@Html.ValidationSummary(true, "查询失败!")
+<!--//"ScoreListByStudent", "SystemDetails", FormMethod.Post, new { enctype = "multipart/form-data" }))-->
+<fieldset>
+    <legend>按学生查询成绩清单</legend>
+    @using (Html.BeginForm())
+    {
+    <div class="display-label">@Html.LabelFor(m => m.student_id)</div>
+    <div class="display-field">
+        @Html.TextBox("StudentID")
+        <!--@Html.TextBoxFor(model => model.student_id)-->
+        @Html.ValidationMessageFor(m => m.student_id)
+    </div>
+    
+    <p><input type="submit" value="查询" /></p>
+    <fieldset>
+    <legend>该学生成绩</legend>
+    <table>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>班级</th>
+        <th>小班号</th>
+    </tr>
+
+
+    <tr>
+        <td>
+            @Html.DisplayFor(m => m.student_id)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.student_name)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.student_sex)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.class_id)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.class_small_id)
+        </td>
+       </tr>
+    </table>
+
+<p></p>
+ <table>     
+       <tr>
+       <th>项目编号</th>
+       <th>项目名称</th>
+       <th>所属模块</th>
+       <th>成绩</th>
+       <th>等级</th>
+       </tr>
+
+        @{
+        foreach (SEMS.Models.Entry_score item in ViewBag.entry_scorelist)
+        {
+               <tr>
+                <td>
+                @Html.DisplayFor(modelitem => item.entry_id)
+                </td>
+                <td>
+               @{
+            foreach (SEMS.Models.Evaluation_entry EvaluationEntryItem in ViewBag.Evaluation_entrylist)
+            {
+                if (EvaluationEntryItem.entry_id == item.entry_id)
+                {    
+                               @Html.DisplayFor(modelitem => EvaluationEntryItem.entry_description) 
+                    break;  
+                }
+            }
+                }
+                </td> 
+                <td>
+                               @{
+            foreach (SEMS.Models.Evaluation_entry EvaluationEntryItem in ViewBag.Evaluation_entrylist)
+            {
+                if (EvaluationEntryItem.entry_id == item.entry_id)
+                {    
+                               @Html.DisplayFor(modelitem => EvaluationEntryItem.module_id) 
+                    break;  
+                }
+            }
+                }
+                </td> 
+                <td>
+                @Html.DisplayFor(modelitem => item.score)
+                </td>
+                <td>
+                    @{
+            var policy=SEMS.BLL.PolicyBS.GetPolicy(SEMS.BLL.Evaluation_entryBS.FindEvaluation_entry(item.entry_id).module_id);
+            if(item.score>policy.policy_excellent){ <p>优秀</p> }
+            else if(item.score>policy.policy_good){ <p>良好</p>}
+            else if(item.score>policy.policy_pass){<p>及格</p> }
+            else { <p>不及格</p> }
+                        }
+                </td>
+                <!--
+                <td>
+                    @Html.ActionLink("修改","SingleModify","score",new{id=Model.student_id,score=item.score},null) |
+                    @Html.ActionLink("删除","Del",new{student_id=Model.student_id,entry_id=item.entry_id})
+                </td>
+                -->
+              </tr>
+        }
+          }
+    </table>
+        </fieldset> 
+   <p>
+    @Html.ActionLink("返回", "Index")
+    </p>
+    }
+    </fieldset>

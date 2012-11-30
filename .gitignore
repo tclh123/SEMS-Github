@@ -1,0 +1,7 @@
+*.suo
+*.user
+.DS_Store
+packages/
+bin/
+obj/
+csx/

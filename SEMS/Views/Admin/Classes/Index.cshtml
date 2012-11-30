@@ -1,0 +1,82 @@
+﻿@model PagedList.IPagedList<SEMS.Models.Classes>
+
+@{
+    ViewBag.Title = "班级管理";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+<h2>
+    班级管理</h2>
+
+<ul>
+    <li>@Html.ActionLink("添加班级", "Add")</li>
+</ul>
+
+<div>
+    <table>
+        <tr>
+            <th>
+                班级
+            </th>
+            <th>
+                小班号
+            </th>
+            <th>
+                年级
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.class_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.class_small_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.class_grade)
+                </td>
+                <td>
+                    @Html.ActionLink("编辑", "Edit", new { id = item.class_id, smallid = item.class_small_id, grade = item.class_grade }) |
+                    @Html.ActionLink("查看", "Details", new { id = item.class_id, smallid = item.class_small_id }) |
+                    @Html.ActionLink("删除", "Delete", new { id = item.class_id, smallid = item.class_small_id })
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+<div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+     
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { page = 1 })
+        @Html.Raw(" ");
+        @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1 })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ");
+        @:< Prev
+    }
+     
+    @if (Model.HasNextPage)
+    {
+        @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1 })
+        @Html.Raw(" ");
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount })
+    }
+    else
+    {
+        @:Next >
+        @Html.Raw(" ")
+        @:>>
+    }
+</div>

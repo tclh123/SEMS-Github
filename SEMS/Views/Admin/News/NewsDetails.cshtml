@@ -1,0 +1,71 @@
+﻿@model PagedList.IPagedList<SEMS.Models.News>
+
+@{
+    ViewBag.Title = "NewsDetails";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>查看公告</h2>
+<fieldset>
+    <legend>查看公告</legend>
+        @{
+            if(Model!=null)
+            {
+                foreach(var item in Model)
+                {
+                    <table>
+                        <tr>
+                            <th>标题</th>
+                            <td>@item.news_title</td>
+                        </tr>
+                        <tr>
+                            <th>内容</th>
+                            <td><textarea readonly="readonly" cols="80">@item.news_content</textarea></td>
+                        </tr>
+                        <tr>
+                            <th>发布者</th>
+                            <td>@SEMS.BLL.AdministraterBS.GetAdministrater(item.admin_id).Description</td>
+                        </tr>
+                        <tr>
+                            <th>操作</th>
+                            <td>
+                            @Html.ActionLink("编辑", "EditorNews",new {id=item.news_id }) |
+                            @Html.ActionLink("删除", "DeleteNews",new {id=item.news_id})
+                            </td>
+                        </tr>
+                    </table>
+
+                }
+            }
+            }
+<div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+     
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { page = 1 })
+        @Html.Raw(" ");
+        @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1 })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ");
+        @:< Prev
+    }
+     
+    @if (Model.HasNextPage)
+    {
+        @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1 })
+        @Html.Raw(" ");
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount })
+    }
+    else
+    {
+        @:Next >
+        @Html.Raw(" ")
+        @:>>
+    }
+</div>
+</fieldset>

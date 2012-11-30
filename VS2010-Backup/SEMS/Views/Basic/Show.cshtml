@@ -1,0 +1,119 @@
+﻿@model SEMS.ViewModels.BaseSearch
+@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var modulelist = SEMS.BLL.ModuleBS.GetModuleList();
+    int yearid = Model.year_id;
+    SEMS.Models.Student student = SEMS.BLL.StudentBS.FindStudent(Model.student_id);
+}
+<h2>
+    显示成绩</h2>
+<fieldset>
+    <legend>你的学号是 @student.student_id (得分为0可能表示该项目为录入,请耐心等待)</legend>
+    <p>
+    </p>
+    <!-- 8列表格 -->
+    <table>
+        <!--第一行-->
+        <tr>
+            <th colspan="2">
+                学号
+            </th>
+            <td colspan="2">@student.student_id
+            </td>
+            <th colspan="2">
+                姓名
+            </th>
+            <td colspan="2">@student.student_name
+            </td>
+        </tr>
+        <tr>
+            <th colspan="4">
+                符合奖学金等级(M2未计入)
+            </th>
+            <td colspan="4">
+            </td>
+        </tr>
+        <!--第二行-->
+        <tr>
+            @foreach (var module in modulelist)
+            {
+                if (module.module_id != "M2")
+                {
+                <th>@module.module_id
+                </th>
+                <td>@SEMS.BLL.Module_scoreBS.GetModule_scoreOfYear(Model.student_id, Model.year_id, module.module_id)
+                </td> 
+                }
+            }
+        </tr>
+        <!--第三行-->
+        <tr>
+            <th colspan="8">
+                得分明细
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                模块
+            </th>
+            <th colspan="2">
+                日期
+            </th>
+            <th colspan="2">
+                项目
+            </th>
+            <th colspan="2">
+                得分
+            </th>
+        </tr>
+        <!--以下为得分明细-->
+        @foreach (var module in modulelist)
+        {
+            if (module.module_id == "M2")
+            {
+                continue;
+            }
+
+            <tr>
+                @{var entrylist = SEMS.BLL.Evaluation_entryBS.GetStuEvaluation_entryList(student.student_id, Model.year_id, module.module_id);}
+                <td colspan="2" rowspan="@entrylist.Count">@module.module_id
+                </td>
+                @{
+                  if (entrylist.Count > 0)
+                  {
+                    <td colspan="2">@entrylist[0].entry_date
+                    </td>
+                    <td colspan="2">@entrylist[0].entry_description
+                    </td>
+                    <td colspan="2">@SEMS.BLL.Entry_scoreBS.GetEntry_score(student.student_id, entrylist[0].entry_id)
+                    </td> 
+                  }
+                  else
+                  {
+                    <td colspan="2">
+                    </td>
+                    <td colspan="2">
+                    </td>
+                    <td colspan="2">
+                    </td> 
+                  }
+                }
+            </tr>
+                  for (int i = 1; i < entrylist.Count; i++)
+                  {
+                      var item = entrylist[i];
+            <tr>
+                <td colspan="2">@item.entry_date
+                </td>
+                <td colspan="2">@item.entry_description
+                </td>
+                <td colspan="2">@SEMS.BLL.Entry_scoreBS.GetEntry_score(student.student_id, item.entry_id)
+                </td>
+            </tr>
+                  }
+        }
+    </table>
+</fieldset>

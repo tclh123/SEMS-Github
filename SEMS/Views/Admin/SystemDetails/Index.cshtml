@@ -1,0 +1,13 @@
+﻿@model List<SEMS.Models.Entry_score>
+
+@{
+    ViewBag.Title = "系统查询";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>系统查询</h2>
+<ul>
+    <li>@Html.ActionLink("按测评项目查询", "ScoreListByEntry")</li>
+    <li>@Html.ActionLink("按班级查询", "ScoreListByClasses")</li>
+    <li>@Html.ActionLink("按学生查询", "ScoreListByStudent")</li>
+</ul>

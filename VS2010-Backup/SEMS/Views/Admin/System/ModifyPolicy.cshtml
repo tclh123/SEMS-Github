@@ -1,0 +1,41 @@
+﻿@model SEMS.Models.Policy
+
+@{
+    ViewBag.Title = "ModifyPolicy";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+    var module_id = Model.module_id;
+}
+
+@Html.ValidationSummary(true, "修改失败!")
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
+
+<h2>修改政策表</h2>
+
+@using (Html.BeginForm(new
+{
+    selectedmodule = module_id
+}))
+{
+<fieldset>
+    <legend>政策信息</legend>
+    
+    <div class="editor-label">@Html.LabelFor(m => m.policy_excellent)</div>
+    <div class="editor-field">@Html.EditorFor(m => m.policy_excellent) @Html.ValidationMessageFor(m => m.policy_excellent)</div>
+
+    <div class="editor-label">@Html.LabelFor(m => m.policy_good)</div>
+    <div class="editor-field">@Html.EditorFor(m => m.policy_good) @Html.ValidationMessageFor(m => m.policy_good)</div>
+
+    <div class="editor-label">@Html.LabelFor(m => m.policy_pass)</div>
+    <div class="editor-field">@Html.EditorFor(m => m.policy_pass) @Html.ValidationMessageFor(m => m.policy_pass)</div>
+
+    <div class="editor-label">@Html.LabelFor(m => m.policy_basic)</div>
+    <div class="editor-field">@Html.EditorFor(m => m.policy_basic) @Html.ValidationMessageFor(m => m.policy_basic)</div>
+
+    <input type="submit" value="确认修改" />
+
+</fieldset>
+}

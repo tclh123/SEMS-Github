@@ -1,0 +1,26 @@
+﻿@model SEMS.Models.Classes
+           
+@{
+    ViewBag.Title = "MultiDelete";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@Html.ValidationSummary(true, "删除失败!")
+<h2>
+    批量删除学生</h2>
+<fieldset>
+    <legend>批量删除</legend>
+    @using (Html.BeginForm())
+    {
+        <div class="editor-label">@Html.LabelFor(m => m.class_id)</div>
+        <div class="editor-field">@Html.DropDownListFor(m=>m.class_id,(SelectList)ViewBag.ClassList)</div>
+        
+        <div class="editor-label">@Html.LabelFor(m=>m.class_small_id)</div>
+        <div class="editor-field">@Html.DropDownListFor(m=>m.class_small_id,(SelectList)ViewBag.SmallList)</div>
+        
+        <input type="submit" value="删除" />
+    }
+</fieldset>

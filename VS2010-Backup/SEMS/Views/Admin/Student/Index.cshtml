@@ -1,0 +1,87 @@
+﻿@model PagedList.IPagedList<SEMS.Models.Student>
+
+@{
+    ViewBag.Title = "学生管理";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>学生管理</h2>
+
+<ul>
+    <li>@Html.ActionLink("单个添加", "Create")</li>
+    <li>@Html.ActionLink("批量导入", "MultiCreate")</li>
+    <li>@Html.ActionLink("批量删除","MultiDelete")</li>
+</ul>
+
+@using (Html.BeginForm())
+{
+    <p>选择班级: @Html.DropDownList("SelectedClass","All") &nbsp; 
+    <input type="submit" value="Filter" /></p>
+}
+
+<table>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>班级</th>
+        <th>小班号</th>
+        <th>操作</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.student_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.student_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.student_sex)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.class_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.class_small_id)
+        </td>
+        <td>
+            @Html.ActionLink("编辑", "Edit", new { id = item.student_id }) |
+            @Html.ActionLink("查看", "Details", new { id = item.student_id }) |
+            @Html.ActionLink("删除", "Delete", new { id = item.student_id }) 
+        </td>
+    </tr>
+}
+</table>
+
+<div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+     
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { page = 1, SelectedClass = ViewBag.ClassId })
+        @Html.Raw(" ");
+        @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1, SelectedClass = ViewBag.ClassId })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ");
+        @:< Prev
+    }
+     
+    @if (Model.HasNextPage)
+    {
+        @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1, SelectedClass = ViewBag.ClassId })
+        @Html.Raw(" ");
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, SelectedClass = ViewBag.ClassId })
+    }
+    else
+    {
+        @:Next >
+        @Html.Raw(" ")
+        @:>>
+    }
+</div>

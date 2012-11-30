@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>当前系统信息</h2>
+
+<p>当前为 @SEMS.BLL.SysinfoBS.GetSysinfo().sysinfo_school_year 学年 @SEMS.BLL.SysinfoBS.GetSysinfo().sysinfo_semester 学期</p>
+
+<ul>
+    <li>@Html.ActionLink("系统表修改", "ModifySys")</li>
+    <li>@Html.ActionLink("政策表修改", "SelectPolicy")</li>
+    <li>@Html.ActionLink("清空临时文件","ClearTemp")</li>
+</ul>

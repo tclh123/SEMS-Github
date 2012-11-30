@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "成绩管理";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>成绩管理</h2>
+<p>在这里可以对学生的各项成绩进行修改,也可以指定某一项成绩进行批量修改</p>
+<p>请选择要进行的操作</p>
+<ul>
+    <li>@Html.ActionLink("单个成绩修改","SingleModify")</li>
+    <li>@Html.ActionLink("批量成绩修改", "MultiModify")</li>
+    <li>@Html.ActionLink("批量导入成绩", "UploadExcel")</li>
+    <li>@Html.ActionLink("批量删除成绩","MultiDelete")</li>
+</ul>

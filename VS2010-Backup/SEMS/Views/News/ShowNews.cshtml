@@ -1,0 +1,23 @@
+﻿@model SEMS.Models.News
+
+@{
+    ViewBag.Title = "ShowNews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ShowNews</h2>
+<div>
+    @{var author = SEMS.BLL.AdministraterBS.GetAdministrater(Model.admin_id);}
+    <p><strong>@Model.news_title</strong></p>
+    <p></p>
+    <p>发布者: @author.admin_descr</p>
+</div>
+
+<div>
+    <p>正文</p>
+    <textarea readonly="readonly">@Model.news_content</textarea>
+</div>
+
+<div>
+    <p>发布时间: @Model.new_date</p>
+</div>

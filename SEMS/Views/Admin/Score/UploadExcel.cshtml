@@ -1,0 +1,27 @@
+﻿@model System.Web.HttpContextBase
+
+@{
+    ViewBag.Title = "批量导入成绩";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>批量导入成绩</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@Html.ValidationSummary(true,"上传失败!")
+
+<ul>
+    <li>@Html.ActionLink("下载Excel模板", "DownloadTemplate")</li>
+</ul>
+
+@using (Html.BeginForm("UploadExcel", "Score", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>@Html.Label("请选择测评项目")</p>
+    <p>@Html.DropDownList("SelectedEntryID") </p>
+    <text>选择上传文件：</text><input name="file" type="file" />
+    <br />
+    <br />
+    <input type="submit" name="Upload" value="Upload" />
+}

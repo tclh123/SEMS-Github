@@ -1,0 +1,97 @@
+﻿@model PagedList.IPagedList<SEMS.Models.Student>
+
+@{
+    ViewBag.Title = "ScoreListByClasses";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<h2>按班级查询</h2>
+
+
+<fieldset>
+    <legend>按班级查询成绩清单</legend>
+    @using (Html.BeginForm())
+    {
+        <p>@Html.DropDownList("SelectedClassID")<input type="submit" value="查询" /></p>
+    }
+    <fieldset>
+        <legend>该班学生成绩</legend>
+        @if (Model != null)
+        {
+        <table>
+            <tr>
+                <th>班级</th>
+                <td>@ViewBag.ClassID</td>
+            </tr>
+            @{
+            foreach (var item in Model)
+            {
+                <tr><td></td></tr>
+                <tr>
+                    <th>
+                        姓名:@item.student_name
+                    </th>
+                    <th>
+                        学号:@item.student_id
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        项目
+                    </th>
+                    <th>
+                        所属模块
+                    </th>
+                    <th>
+                        分数
+                    </th>
+                </tr>
+                var scorelist = SEMS.BLL.Entry_scoreBS.GetStuEntry_scoreList(item.student_id);
+                foreach (var temp in scorelist)
+                {
+                <tr>
+                    <td>@SEMS.BLL.Evaluation_entryBS.FindEvaluation_entry(temp.entry_id).entry_description
+                    </td>
+                    <td>@SEMS.BLL.Evaluation_entryBS.FindEvaluation_entry(temp.entry_id).module_id
+                    </td>
+                    <td>@temp.score
+                    </td>
+                </tr>
+                }
+
+            }  
+            }
+        </table>
+        <div>
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.PageCount
+     
+            @if (Model.HasPreviousPage)
+            {
+                @Html.ActionLink("<<", "ScoreListByClasses", new { page = 1, SelectedClassID = ViewBag.classID })
+                @Html.Raw(" ");
+                @Html.ActionLink("< Prev", "ScoreListByClasses", new { page = Model.PageNumber - 1, SelectedClassID = ViewBag.classID })
+            }
+            else
+            {
+                @:<<
+                @Html.Raw(" ");
+                @:< Prev
+            }
+     
+            @if (Model.HasNextPage)
+            {
+                @Html.ActionLink("Next >", "ScoreListByClasses", new { page = Model.PageNumber + 1, SelectedClassID = ViewBag.classID })
+                @Html.Raw(" ");
+                @Html.ActionLink(">>", "ScoreListByClasses", new { page = Model.PageCount, SelectedClassID = ViewBag.classID })
+            }
+            else
+            {
+                @:Next >
+                @Html.Raw(" ")
+                @:>>
+            }
+        </div>            
+        }
+    </fieldset>
+</fieldset>

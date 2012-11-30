@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "MultiDelete";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+
+<h2>批量删除</h2>
+<fieldset>
+    <legend>选择一个项目以删除成绩</legend>
+    @using (Html.BeginForm())
+    {
+        <p>@Html.DropDownList("selectedentry")</p>
+
+        <input type="submit" value="删除" />
+    }
+</fieldset>

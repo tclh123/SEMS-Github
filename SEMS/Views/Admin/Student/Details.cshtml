@@ -1,0 +1,137 @@
+﻿@model SEMS.Models.Student
+           
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<script src="../../../Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="../../../Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+
+@Html.ValidationSummary(true, "查询失败!")
+
+<h2>详细信息</h2>
+
+<table>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>班级</th>
+        <th>小班号</th>
+    </tr>
+
+
+    <tr>
+        <td>
+            @Html.DisplayFor(m => m.student_id)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.student_name)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.student_sex)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.class_id)
+        </td>
+        <td>
+            @Html.DisplayFor(m => m.class_small_id)
+        </td>
+       </tr>
+ </table>
+ <fieldset>
+ <legend>项目测评</legend>
+ <table>     
+       <tr>
+       <th>项目编号</th>
+       <th>项目名称</th>
+       <th>所属模块</th>
+       <th>成绩</th>
+       </tr>
+
+        @{
+            foreach (SEMS.Models.Entry_score item in ViewBag.entry_scorelist)
+            {
+               <tr>
+                <td>
+                @Html.DisplayFor(modelitem => item.entry_id)
+                </td>
+                <td>
+               @{
+                foreach (SEMS.Models.Evaluation_entry EvaluationEntryItem in ViewBag.Evaluation_entrylist)
+                    {
+                        if (EvaluationEntryItem.entry_id == item.entry_id)
+                        {    
+                               @Html.DisplayFor(modelitem => EvaluationEntryItem.entry_description)   
+                        }
+                    }
+                }
+                </td> 
+                <td>
+                               @{
+                foreach (SEMS.Models.Evaluation_entry EvaluationEntryItem in ViewBag.Evaluation_entrylist)
+                    {
+                        if (EvaluationEntryItem.entry_id == item.entry_id)
+                        {    
+                               @Html.DisplayFor(modelitem => EvaluationEntryItem.module_id)   
+                        }
+                    }
+                }
+                </td> 
+                <td>
+                @Html.DisplayFor(modelitem => item.score)
+                </td>
+              </tr>
+            }
+          }
+
+</table>
+   </fieldset> 
+
+
+@* <fieldset>
+        <legend>查看学生信息</legend>
+        <!--姓名-->
+        <div class="editor-label">
+            @Html.LabelFor(m => m.student_name)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(m=>m.student_name)
+        </div>
+        <!--性别-->
+        <div class="editor-label">
+            @Html.LabelFor(m => m.student_sex)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(m => m.student_sex)
+        </div>
+        <!--班级-->
+        <div class="editor-label">
+            @Html.LabelFor(m => m.class_id)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(m => m.class_id) 
+        </div>
+        <!--小班号-->
+        <div class="editor-label">
+            @Html.LabelFor(m => m.class_small_id)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(m => m.class_small_id)
+        </div>        
+        
+        <div class="editor-label">
+            @Html.LabelFor(m => m.class_small_id)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayTextFor(m => m.class_small_id)
+        </div>
+
+        @{
+          foreach()  
+          }
+
+        @Html.ActionLink("返回", "Index")
+
+    </fieldset> *@
